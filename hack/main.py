@@ -1,7 +1,13 @@
 from fastapi import FastAPI, File, UploadFile, Response, Header
 from fastapi.responses import FileResponse
+from typing import Optional
 from deta import Deta
+from pydantic import BaseModel
+import hashlib
+import jwt
 import uuid
+import json
+from datetime import datetime, timedelta
 from fastapi import File, UploadFile
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -39,18 +45,29 @@ def updateImage(file: UploadFile = File(...)):
         "status": 200,
         "link": "https://acm-hackathon.deta.dev/api/getfile/"+fileName
     }
-    
+        
 @app.get("/api/getfile/{fileLocation}")
 def getImage(fileLocation: str):
     
     hackDrive = deta.Drive("HackathonFiles")
+    
+    try:
+        imageFile = hackDrive.get(fileLocation)
+        imageExtension = fileLocation.split(".")[1]
+        return StreamingResponse(imageFile.iter_chunks(1024), media_type="image/"+imageExtension)
+    except:
+        pass
+    
     try:
         theFile = hackDrive.get(fileLocation)
         return StreamingResponse(theFile.iter_chunks(1024))
     except:
-        return({
-            "status": 404,
-            "message": "File Does not Exist"
-        })
+        pass
+    
+    return({
+        "status": 404,
+        "message": "File Does not Exist"
+    })
 
 # "endpoint": "https://vd65r8.deta.dev",
+
