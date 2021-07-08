@@ -1,13 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Response, Header
 from fastapi.responses import FileResponse
-from typing import Optional
 from deta import Deta
-from pydantic import BaseModel
-import hashlib
-import jwt
 import uuid
-import json
-from datetime import datetime, timedelta
 from fastapi import File, UploadFile
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
