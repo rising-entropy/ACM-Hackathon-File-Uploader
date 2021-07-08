@@ -36,7 +36,8 @@ def updateImage(file: UploadFile = File(...)):
     hackDrive = deta.Drive("HackathonFiles")
     
     fileName = str(uuid.uuid4())
-    fileExtension = file.filename.split(".")[1]
+    fileExtension = file.filename.split(".")
+    fileExtension = fileExtension[len(fileExtension)-1]
     fileName += "."+fileExtension
     
     hackDrive.put(name=fileName, data=file.file)
@@ -69,5 +70,4 @@ def getImage(fileLocation: str):
         "message": "File Does not Exist"
     })
 
-# "endpoint": "https://vd65r8.deta.dev",
-
+# "endpoint": "https://vd65r8.deta.dev"
