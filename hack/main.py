@@ -37,7 +37,7 @@ def updateImage(file: UploadFile = File(...)):
 
     return {
         "status": 200,
-        "link": "localhost:8000/api/getfile/"+fileName
+        "link": "https://acm-hackathon.deta.dev/api/getfile/"+fileName
     }
     
 @app.get("/api/getfile/{fileLocation}")
